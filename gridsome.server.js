@@ -2,11 +2,13 @@ const dayjs = require('dayjs')
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
-const { getPopularPosts, writeToFile } = require('./app.server')
+const { writeToFile } = require('./app.server')
 const { prefs, paths } = require('./app.config')
 const projects = require('./content/projects')
 
-const popularPosts = getPopularPosts()
+const reportPath = `${paths.report.dir}/${paths.report.name}`
+const popularPosts = require(reportPath)
+
 const outdationDate = prefs.outdationPeriod ? dayjs().clone().subtract(prefs.outdationPeriod, 'days').startOf('day') : null
 
 module.exports = api => {
